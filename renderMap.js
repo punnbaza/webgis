@@ -10,7 +10,7 @@ function Map(props) {
 
     const template_point = {
         title: "Attribute",
-        content: "RASTERVALU: {RASTERVALU}" 
+        content: "ค่าแรงดัน: {RASTERVALU}" 
     };
 
     const color_point = {
@@ -34,9 +34,9 @@ function Map(props) {
         ()=>{
             let view;
 
-        loadModules(["esri/views/MapView", "esri/WebMap", "esri/layers/GeoJSONLayer","esri/symbols/WebStyleSymbol"],{
+        loadModules(["esri/views/MapView", "esri/WebMap", "esri/layers/GeoJSONLayer","esri/layers/MapImageLayer"],{
             css:true
-        }).then(([MapView,WebMap,GeoJSONLayer,WebStyleSymbol])=>{
+        }).then(([MapView,WebMap,GeoJSONLayer,MapImageLayer])=>{
             const webmap = new WebMap({
                 basemap: 'topo-vector'
             })
@@ -157,8 +157,16 @@ function Map(props) {
 
 
             }
-
-
+            /*const addra =  new MapImageLayer({
+                url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer",
+                sublayers: {
+                  
+                    title: "Slope",
+                    source: {type: "data-layer",dataSource: {type: "raster",workspaceId: "MyDatabaseWorkspaceIDSSR2",dataSourceName: "slope"}
+                    
+                  }
+                }
+            });*/
             const addpipe = new GeoJSONLayer({
                 url: "https://raw.githubusercontent.com/chtoeii/Geojson-Data/main/pipe_line.geojson",
                 renderer: {
@@ -174,7 +182,7 @@ function Map(props) {
                   }
 
             });
-
+            //webmap.add(addra)
             webmap.add(addpipe)
 
         })
