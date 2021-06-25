@@ -3,6 +3,8 @@ import {loadModules} from 'esri-loader'
 
 
 
+
+
 function Map(props) {
     const myId = props.myId;
     const MapEl = useRef(null);
@@ -10,8 +12,27 @@ function Map(props) {
 
     const template_point = {
         title: "Attribute",
-        content: "ค่าแรงดัน: {RASTERVALU}" 
+        content: "ค่าแรงดัน: {RASTERVALU}",
+        
+     
+          
+      
     };
+
+    const trailheadsRenderer = {
+      "type": "simple",
+      "symbol": {
+        "type": "picture-marker",
+        "url": "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
+        "width": "18px",
+        "height": "18px"
+      }
+    }
+    
+      
+
+    
+   
 
     const color_point = {
         type: "simple",
@@ -25,39 +46,83 @@ function Map(props) {
         },
         visualVariables: [{
           type: "size",
+          
 
         }]
     };
 
+   
+    
 
     useEffect(
         ()=>{
             let view;
 
-        loadModules(["esri/views/MapView", "esri/WebMap", "esri/layers/GeoJSONLayer","esri/layers/MapImageLayer"],{
+        loadModules(["esri/views/MapView", "esri/WebMap", "esri/layers/GeoJSONLayer","esri/layers/MapImageLayer","esri/layers/FeatureLayer","esri/widgets/Search","esri/widgets/LayerList","esri/widgets/CoordinateConversion","esri/widgets/Locate","esri/widgets/ElevationProfile","esri/layers/ImageryLayer","esri/WebScene", "esri/views/SceneView"],{
             css:true
-        }).then(([MapView,WebMap,GeoJSONLayer,MapImageLayer])=>{
+        }).then(([MapView,WebMap,GeoJSONLayer,MapImageLayer,FeatureLayer,Search,LayerList,CoordinateConversion,Locate,ElevationProfile,ImageryLayer,WebScene,SceneView])=>{
+            
+            
+            /*const layer = new ImageryLayer({
+                url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/NLCDLandCover2001/ImageServer",
+                format: "jpgpng" // server exports in either jpg or png format
+              });*/
+
+            
+            
+            
             const webmap = new WebMap({
-                basemap: 'topo-vector'
+                basemap: "streets-navigation-vector",
+                //layers:layer 
+                
             })
             view = new MapView({
                 map: webmap,
                 center: [100.31,13.74],
                 zoom: 12,
-                container : MapEl.current
-            })
+                container : MapEl.current,
+                   
+            }) 
+            
+            
+      
+            const trailheadsLabels = {
+              symbol: {
+                type: "text",
+                color: "#FFFFFF",
+                haloColor: "#5E8D74",
+                haloSize: "2px",
+                font: {
+                  size: "12px",
+                  family: "Noto Sans",
+                  style: "italic",
+                  weight: "normal"
+                }
+              },
+      
+              labelPlacement: "above-center",
+              labelExpressionInfo: {
+                expression: "1"
+              }
+            };
+      
+            // Create the layer and set the renderer
+            
+      
+            
 
+           
 
 
 
             if(myId === "June2020"){
 
-                const geojsonLayer = new GeoJSONLayer({
-                    url: "https://raw.githubusercontent.com/chtoeii/Geojson-Data/main/202006_lalong.geojson",
-                    popupTemplate: template_point,
-                    renderer: color_point,
-                            });
-                webmap.add(geojsonLayer)
+                const trailheads = new GeoJSONLayer({
+                  url: "https://raw.githubusercontent.com/chtoeii/Geojson-Data/main/202006_lalong.geojson",
+                  renderer: trailheadsRenderer,
+                  labelingInfo: [trailheadsLabels]
+                });
+                webmap.add(trailheads)
 
 
             }
@@ -105,6 +170,8 @@ function Map(props) {
                     renderer: color_point,
                             });
                 webmap.add(geojsonLayer)  
+
+
             }
             else if(myId === "December2020"){
 
@@ -154,16 +221,17 @@ function Map(props) {
             }
 
             else{
-
-
             }
             /*const addra =  new MapImageLayer({
                 url: "https://sampleserver6.arcgisonline.com/arcgis/rest/services/USA/MapServer",
-                sublayers: {
-                  
-                    title: "Slope",
-                    source: {type: "data-layer",dataSource: {type: "raster",workspaceId: "MyDatabaseWorkspaceIDSSR2",dataSourceName: "slope"}
-                    
+                sublayers: { title: "Slope",
+                    source: {
+                        type: "data-layer",
+                        dataSource: {
+                            type: "raster",
+                            workspaceId: "MyDatabaseWorkspaceIDSSR2",
+                        dataSourceName: "slope"
+                        }
                   }
                 }
             });*/
@@ -182,9 +250,67 @@ function Map(props) {
                   }
 
             });
-            //webmap.add(addra)
-            webmap.add(addpipe)
+            /*map.layer = new FeatureLayer({
+                labelinginfo : labelclass
+            })*/
 
+            //layer.labelingInfo = [labelclass]
+            
+
+            /*const layerList = new LayerList({
+        
+                listItemCreatedFunction: function(event) {
+                  const item = event.item;
+                  if (item.layer.type !== "simple") {
+                    // don't show legend twice
+                    item.panel = {
+                      content: "legend",
+                      open: true
+                    };
+                  }
+                }
+              });
+            view.ui.add(layerList, "bottom-right"); */
+            
+            
+            webmap.add(addpipe);
+            view.ui.add(
+                new Search({
+                  view: view
+                }),
+                "top-right"
+              );
+            var ccWidget = new CoordinateConversion({
+                view: view
+              });
+      
+            view.ui.add(ccWidget, "bottom-left");
+
+            var locateBtn = new Locate({
+                view: view
+              });
+      
+              // Add the locate widget to the top left corner of the view
+            view.ui.add(locateBtn, {
+                position: "top-left"
+              });
+            
+            
+            //add elv view
+
+            /*const elevationProfile = new ElevationProfile({
+              view: view,
+              profiles: [{
+                type: "ground",          // autocasts as new ElevationProfileLineGround(),
+                color: "red",            // display this profile in red
+                title: "World elevation" // with a custom label
+              }]
+            });
+      
+              // add the widget to the view
+              view.ui.add(elevationProfile, "top-right"); */
+
+            
         })
         return()=>{
             if(!!view){
