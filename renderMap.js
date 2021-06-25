@@ -10,20 +10,20 @@ function Map(props) {
     const MapEl = useRef(null);
     console.log('choose: '+ myId);
 
-    const template_point = {
+    /*const template_point = {
         title: "Attribute",
         content: "ค่าแรงดัน: {RASTERVALU}",
         
      
           
       
-    };
+    };*/
 
-    const trailheadsRenderer = {
+    const color_point = {
       "type": "simple",
       "symbol": {
         "type": "picture-marker",
-        "url": "http://static.arcgis.com/images/Symbols/NPS/npsPictograph_0231b.png",
+        "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1c/Circle-icons-water.svg/1024px-Circle-icons-water.svg.png",
         "width": "18px",
         "height": "18px"
       }
@@ -34,7 +34,7 @@ function Map(props) {
     
    
 
-    const color_point = {
+    /*const color_point = {
         type: "simple",
         symbol: {
           type: "simple-marker",
@@ -49,7 +49,7 @@ function Map(props) {
           
 
         }]
-    };
+    };*/
 
    
     
@@ -102,7 +102,7 @@ function Map(props) {
       
               labelPlacement: "above-center",
               labelExpressionInfo: {
-                expression: "1"
+                expression: "$feature.RASTERVALU"
               }
             };
       
@@ -119,7 +119,7 @@ function Map(props) {
 
                 const trailheads = new GeoJSONLayer({
                   url: "https://raw.githubusercontent.com/chtoeii/Geojson-Data/main/202006_lalong.geojson",
-                  renderer: trailheadsRenderer,
+                  renderer: color_point,
                   labelingInfo: [trailheadsLabels]
                 });
                 webmap.add(trailheads)
@@ -130,8 +130,9 @@ function Map(props) {
 
                 const geojsonLayer = new GeoJSONLayer({
                     url: "https://raw.githubusercontent.com/chtoeii/Geojson-Data/main/202007_lalong.geojson",
-                    popupTemplate: template_point,
+                    //popupTemplate: template_point,
                     renderer: color_point,
+                    labelingInfo: [trailheadsLabels]
                             });
                 webmap.add(geojsonLayer)  
             }    
@@ -139,8 +140,9 @@ function Map(props) {
 
                 const geojsonLayer = new GeoJSONLayer({
                     url: "https://raw.githubusercontent.com/chtoeii/Geojson-Data/main/202008_latlong.geojson",
-                    popupTemplate: template_point,
+                    //popupTemplate: template_point,
                     renderer: color_point,
+                    labelingInfo: [trailheadsLabels]
                             });
                 webmap.add(geojsonLayer)  
             }
@@ -148,8 +150,9 @@ function Map(props) {
 
                 const geojsonLayer = new GeoJSONLayer({
                     url: "https://raw.githubusercontent.com/chtoeii/Geojson-Data/main/202009_lalong.geojson",
-                    popupTemplate: template_point,
+                    //popupTemplate: template_point,
                     renderer: color_point,
+                    labelingInfo: [trailheadsLabels]
                             });
                 webmap.add(geojsonLayer)  
             }
@@ -157,8 +160,9 @@ function Map(props) {
 
                 const geojsonLayer = new GeoJSONLayer({
                     url: "https://raw.githubusercontent.com/chtoeii/Geojson-Data/main/202010_lalong.geojson",
-                    popupTemplate: template_point,
+                    //popupTemplate: template_point,
                     renderer: color_point,
+                    labelingInfo: [trailheadsLabels]
                             });
                 webmap.add(geojsonLayer)  
             }
@@ -166,8 +170,9 @@ function Map(props) {
 
                 const geojsonLayer = new GeoJSONLayer({
                     url: "https://raw.githubusercontent.com/chtoeii/Geojson-Data/main/202011_lalong.geojson",
-                    popupTemplate: template_point,
+                    //popupTemplate: template_point,
                     renderer: color_point,
+                    labelingInfo: [trailheadsLabels]
                             });
                 webmap.add(geojsonLayer)  
 
@@ -177,8 +182,9 @@ function Map(props) {
 
                 const geojsonLayer = new GeoJSONLayer({
                     url: "https://raw.githubusercontent.com/chtoeii/Geojson-Data/main/202012_lalong.geojson",
-                    popupTemplate: template_point,
+                    //popupTemplate: template_point,
                     renderer: color_point,
+                    labelingInfo: [trailheadsLabels]
                             });
                 webmap.add(geojsonLayer)  
             }
@@ -186,8 +192,9 @@ function Map(props) {
 
                 const geojsonLayer = new GeoJSONLayer({
                     url: "https://raw.githubusercontent.com/chtoeii/Geojson-Data/main/202101_lalong.geojson",
-                    popupTemplate: template_point,
+                    //popupTemplate: template_point,
                     renderer: color_point,
+                    labelingInfo: [trailheadsLabels]
                             });
                 webmap.add(geojsonLayer)  
             }
@@ -195,8 +202,9 @@ function Map(props) {
 
                 const geojsonLayer = new GeoJSONLayer({
                     url: "https://raw.githubusercontent.com/chtoeii/Geojson-Data/main/202102_lalong.geojson",
-                    popupTemplate: template_point,
+                    //popupTemplate: template_point,
                     renderer: color_point,
+                    labelingInfo: [trailheadsLabels]
                             });
                 webmap.add(geojsonLayer)  
             }
@@ -204,8 +212,9 @@ function Map(props) {
 
                 const geojsonLayer = new GeoJSONLayer({
                     url: "https://raw.githubusercontent.com/chtoeii/Geojson-Data/main/202103_lalong.geojson",
-                    popupTemplate: template_point,
+                    //popupTemplate: template_point,
                     renderer: color_point,
+                    labelingInfo: [trailheadsLabels]
                             });
                 webmap.add(geojsonLayer)  
             } 
@@ -213,8 +222,9 @@ function Map(props) {
 
                 const geojsonLayer = new GeoJSONLayer({
                     url: "https://raw.githubusercontent.com/chtoeii/Geojson-Data/main/202104_lalong.geojson",
-                    popupTemplate: template_point,
+                    //popupTemplate: template_point,
                     renderer: color_point,
+                    labelingInfo: [trailheadsLabels]
 
                             });
                 webmap.add(geojsonLayer)  
